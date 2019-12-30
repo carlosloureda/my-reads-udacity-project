@@ -60,9 +60,9 @@ Book.propTypes = {
     imageLinks: PropTypes.shape({
       smallThumbnail: PropTypes.string,
       thumbnail: PropTypes.string
-    }).isRequired,
+    }),
     id: PropTypes.string.isRequired,
-    shelf: PropTypes.string.isRequired
+    shelf: PropTypes.string // the ones from the search come without shelf
   }).isRequired,
   onBookShelfChange: PropTypes.func.isRequired
 };
