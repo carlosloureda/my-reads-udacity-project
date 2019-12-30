@@ -61,7 +61,7 @@ Book.propTypes = {
       thumbnail: PropTypes.string
     }),
     id: PropTypes.string.isRequired,
-    shelf: PropTypes.string // the ones from the search come without shelf
+    shelf: PropTypes.string.isRequired
   }).isRequired,
   onBookShelfChange: PropTypes.func.isRequired
 };
