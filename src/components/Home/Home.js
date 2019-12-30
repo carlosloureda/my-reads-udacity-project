@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import BookShelf from "./BookShelf";
-import Header from "./Header";
+import Header from "../Header";
 
 // TODO: Think of a better way of having this coming from the shelves state?
 const SHELVES_NAMES = {
@@ -56,9 +57,7 @@ class Home extends Component {
           </div>
         </div>
         <div className="open-search">
-          <button onClick={() => this.setState({ showSearchPage: true })}>
-            Add a book
-          </button>
+          <Link to="/search">Add a book</Link>
         </div>
       </div>
     );
