@@ -45,9 +45,14 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    const { books, shelves } = this.state;
     return (
       <div className="app">
-        {this.state.showSearchPage ? <Search /> : <Home />}
+        {this.state.showSearchPage ? (
+          <Search />
+        ) : (
+          <Home books={books} shelves={shelves} />
+        )}
       </div>
     );
   }
