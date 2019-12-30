@@ -2,6 +2,8 @@
 
 First project application for Udacity's React Nanodegree. This app is about having a collection of books stored in 3 different shelves (Currently Reading, Want to Read & Read).
 
+I am recording some videos developing this application so my mentees can have an idea of other approaches on developing this Nanodegree project when they pass it by themselves.
+
 ## Table of Contents
 
 - [Installation](#installation)
