@@ -101,6 +101,20 @@ let book = {
 };
 ```
 
+### State Schema
+
+- App (previously thougth of Home, but see the improvement 1 point):
+
+  - Will have a `books` object with the id of each book as a key and the whole book as the value for each key.
+  - `shelves` object with 3 properties (1 for each shelve) and inside an array of books Ids to refernce the books in the `books` state
+
+- Search Page
+  - Will have a `searchResults` array of books for the query launched
+
+IMPROVEMENT 1:
+
+As the search page will need to have access to the `books` to show which ones we already have on our shelves we need to lift up this state to the parent component. This component can just be the App.js
+
 ## Support
 
 <!-- TODO: Chantge the REPO_URL variable into the real repository URL -->
