@@ -18,7 +18,7 @@ const missingImage = {
 class Book extends Component {
   render() {
     const { book, onBookShelfChange } = this.props;
-    const { id, title, authors, imageLinks, shelf } = book;
+    const { title, authors, imageLinks, shelf } = book;
     const bookCoverUrl = imageLinks && imageLinks.thumbnail;
     return (
       <div className="book">
@@ -29,10 +29,9 @@ class Book extends Component {
           ></div>
           <div className="book-shelf-changer">
             <select
-              onChange={e => {
-                let newShelf = e.target.value;
-                onBookShelfChange(id, newShelf);
-              }}
+              onChange={({ target: { value: newShelf } }) =>
+                onBookShelfChange(book, newShelf)
+              }
               defaultValue={shelf}
             >
               <option value="move" disabled>

@@ -19,35 +19,39 @@ class BooksApp extends React.Component {
     }
   };
 
-  onBookShelfChange = async (bookId, newShelf) => {
-    let previousStateForOptimisticUI = this.state;
+  // Required for our search page, when we add a new element
+  bookIsInOurLibrary = bookId => (this.state.books[bookId] ? true : false);
 
-    let oldShelf = this.state.books[bookId].shelf;
+  onBookShelfChange = async (book, newShelf) => {
+    let previousStateForOptimisticUI = this.state;
 
     let booksCopy = Object.assign({}, this.state.books);
     let shelvesCopy = Object.assign({}, this.state.shelves);
 
     // On book shelf change of remove from shelf we need to remove the bookId
     // from the old shelf. For new self depends on if it is an existant shelf or none.
-    shelvesCopy = {
-      ...shelvesCopy,
-      [oldShelf]: shelvesCopy[oldShelf].filter(_bookId => _bookId !== bookId)
-    };
+    if (this.bookIsInOurLibrary(book.id)) {
+      let oldShelf = this.state.books[book.id].shelf;
+      shelvesCopy = {
+        ...shelvesCopy,
+        [oldShelf]: shelvesCopy[oldShelf].filter(_bookId => _bookId !== book.id)
+      };
+    }
 
     if (newShelf === "none") {
-      delete booksCopy[bookId];
+      delete booksCopy[book.id];
     } else {
       booksCopy = {
         ...booksCopy,
-        [bookId]: {
-          ...booksCopy[bookId],
+        [book.id]: {
+          ...book,
           shelf: newShelf
         }
       };
       // TODO: Would be great to find a way of updating [newShelf] conditionally in the nested update :D
       shelvesCopy = {
         ...shelvesCopy,
-        [newShelf]: shelvesCopy[newShelf].concat(bookId)
+        [newShelf]: shelvesCopy[newShelf].concat(book.id)
       };
     }
 
@@ -57,11 +61,11 @@ class BooksApp extends React.Component {
     });
 
     try {
-      await BooksAPI.update(this.state.books[bookId], newShelf);
+      await BooksAPI.update(book, newShelf);
       // If we manage errors on the BooksAPI we might inspect also the returned
       // response from this update call
     } catch (e) {
-      console.log("Error happened on the update API query");
+      console.log("Error happened on the update API query: ", e);
       this.setState(previousStateForOptimisticUI);
     }
   };

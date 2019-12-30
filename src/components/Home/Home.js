@@ -21,7 +21,7 @@ class Home extends Component {
   };
 
   handleInitialState = books => {
-    // console.log("handleInitialState called");
+    console.log("handleInitialState called");
     let booksInShelves = {
       currentlyReading: [],
       wantToRead: [],
