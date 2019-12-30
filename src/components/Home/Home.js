@@ -20,9 +20,8 @@ class Home extends Component {
     read: []
   };
 
-  // need to use componentWillReceiveProps as setting state from props is an antipattern
-  componentWillReceiveProps(nextProps) {
-    const { books } = nextProps;
+  handleInitialState = books => {
+    // console.log("handleInitialState called");
     let booksInShelves = {
       currentlyReading: [],
       wantToRead: [],
@@ -37,6 +36,35 @@ class Home extends Component {
       wantToRead: booksInShelves["wantToRead"],
       read: booksInShelves["read"]
     });
+  };
+
+  componentDidMount() {
+    // console.log("1. componentDidMount called");
+    this.handleInitialState(this.props.books);
+  }
+  // need to use componentWillReceiveProps as setting state from props is an antipattern
+  componentDidUpdate(prevProps) {
+    // console.log("2. componentDidUpdate called");
+    const {
+      shelves: {
+        currentlyReading: prevCurrentlyReading,
+        wantToRead: prevWantToRead,
+        read: prevRead
+      }
+    } = prevProps;
+
+    const {
+      shelves: { currentlyReading, wantToRead, read }
+    } = this.props;
+
+    if (
+      currentlyReading.length !== prevCurrentlyReading.length ||
+      wantToRead.length !== prevWantToRead.length ||
+      read.length !== prevRead.length
+    ) {
+      // console.log("3. componentDidUpdate called with different props");
+      this.handleInitialState(this.props.books);
+    }
   }
 
   render() {
