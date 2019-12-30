@@ -23,6 +23,53 @@ class BooksApp extends React.Component {
     }
   };
 
+  onBookShelfChange = async (bookId, newShelf) => {
+    let previousStateForOptimisticUI = this.state;
+
+    let oldShelf = this.state.books[bookId].shelf;
+
+    let booksCopy = Object.assign({}, this.state.books);
+    let shelvesCopy = Object.assign({}, this.state.shelves);
+
+    // On book shelf change of remove from shelf we need to remove the bookId
+    // from the old shelf. For new self depends on if it is an existant shelf or none.
+    shelvesCopy = {
+      ...shelvesCopy,
+      [oldShelf]: shelvesCopy[oldShelf].filter(_bookId => _bookId !== bookId)
+    };
+
+    if (newShelf === "none") {
+      delete booksCopy[bookId];
+    } else {
+      booksCopy = {
+        ...booksCopy,
+        [bookId]: {
+          ...booksCopy[bookId],
+          shelf: newShelf
+        }
+      };
+      // TODO: Would be great to find a way of updating [newShelf] conditionally in the nested update :D
+      shelvesCopy = {
+        ...shelvesCopy,
+        [newShelf]: shelvesCopy[newShelf].concat(bookId)
+      };
+    }
+
+    this.setState({
+      books: booksCopy,
+      shelves: shelvesCopy
+    });
+
+    try {
+      await BooksAPI.update(this.state.books[bookId], newShelf);
+      // If we manage errors on the BooksAPI we might inspect also the returned
+      // response from this update call
+    } catch (e) {
+      console.log("Error happened on the update API query");
+      this.setState(previousStateForOptimisticUI);
+    }
+  };
+
   componentDidMount() {
     BooksAPI.getAll().then(booksArr => {
       let booksObject = {};
@@ -52,7 +99,11 @@ class BooksApp extends React.Component {
         {this.state.showSearchPage ? (
           <Search />
         ) : (
-          <Home books={books} shelves={shelves} />
+          <Home
+            books={books}
+            shelves={shelves}
+            onBookShelfChange={this.onBookShelfChange}
+          />
         )}
       </div>
     );

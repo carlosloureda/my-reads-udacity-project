@@ -39,7 +39,7 @@ class Home extends Component {
   }
 
   render() {
-    const { shelves } = this.props;
+    const { shelves, onBookShelfChange } = this.props;
     return (
       <div className="list-books">
         <Header />
@@ -50,6 +50,7 @@ class Home extends Component {
                 key={shelf}
                 shelfName={SHELVES_NAMES[shelf]}
                 books={this.state[shelf]}
+                onBookShelfChange={onBookShelfChange}
               />
             ))}
           </div>
@@ -70,7 +71,8 @@ Home.propTypes = {
     currentlyReading: PropTypes.array.isRequired,
     wantToRead: PropTypes.array.isRequired,
     read: PropTypes.array.isRequired
-  }).isRequired
+  }).isRequired,
+  onBookShelfChange: PropTypes.func.isRequired
 };
 
 export default Home;

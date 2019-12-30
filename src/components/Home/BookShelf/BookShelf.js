@@ -5,7 +5,7 @@ import Book from "../../Book";
 
 class BookShelf extends React.PureComponent {
   render() {
-    const { shelfName, books } = this.props;
+    const { shelfName, books, onBookShelfChange } = this.props;
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{shelfName}</h2>
@@ -14,7 +14,7 @@ class BookShelf extends React.PureComponent {
             {books &&
               books.map(book => (
                 <li key={book.id}>
-                  <Book book={book} />
+                  <Book book={book} onBookShelfChange={onBookShelfChange} />
                 </li>
               ))}
           </ol>
@@ -26,6 +26,7 @@ class BookShelf extends React.PureComponent {
 
 BookShelf.propTypes = {
   shelfName: PropTypes.string.isRequired,
-  books: PropTypes.array
+  books: PropTypes.array,
+  onBookShelfChange: PropTypes.func.isRequired
 };
 export default BookShelf;

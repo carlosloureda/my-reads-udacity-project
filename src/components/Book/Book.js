@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class Book extends Component {
   render() {
-    const { id, title, authors, imageLinks } = this.props.book;
+    const { book, onBookShelfChange } = this.props;
+    const { id, title, authors, imageLinks, shelf } = book;
     const bookCoverUrl = imageLinks && imageLinks.thumbnail;
     return (
       <div className="book">
@@ -16,7 +18,13 @@ class Book extends Component {
             }}
           ></div>
           <div className="book-shelf-changer">
-            <select>
+            <select
+              onChange={e => {
+                let newShelf = e.target.value;
+                onBookShelfChange(id, newShelf);
+              }}
+              defaultValue={shelf}
+            >
               <option value="move" disabled>
                 Move to...
               </option>
@@ -35,5 +43,18 @@ class Book extends Component {
     );
   }
 }
+Book.propTypes = {
+  book: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    authors: PropTypes.array.isRequired,
+    imageLinks: PropTypes.shape({
+      smallThumbnail: PropTypes.string,
+      thumbnail: PropTypes.string
+    }).isRequired,
+    id: PropTypes.string.isRequired,
+    shelf: PropTypes.string.isRequired
+  }).isRequired,
+  onBookShelfChange: PropTypes.func.isRequired
+};
 
 export default Book;
