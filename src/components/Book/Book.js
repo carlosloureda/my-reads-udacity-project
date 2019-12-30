@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 
 // TODO: fix these 2 contants when we add Emotion/styled-components
@@ -15,7 +15,7 @@ const missingImage = {
   backgroundSize: "contain"
 };
 
-class Book extends Component {
+class Book extends PureComponent {
   render() {
     const { book, onBookShelfChange } = this.props;
     const { title, authors, imageLinks, shelf } = book;
