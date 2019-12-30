@@ -23,24 +23,25 @@ class BooksApp extends React.Component {
     }
   };
 
-  async componentDidMount() {
-    let booksArr = await BooksAPI.getAll();
-    let booksObject = {};
-    let shelves = {
-      currentlyReading: [],
-      wantToRead: [],
-      read: []
-    };
-    if (booksArr && booksArr.length) {
-      booksObject = booksArr.reduce((books, book) => {
-        shelves[book.shelf].push(book.id);
-        books[book.id] = book;
-        return books;
-      }, {});
-    }
-    this.setState({
-      books: booksObject,
-      shelves
+  componentDidMount() {
+    BooksAPI.getAll().then(booksArr => {
+      let booksObject = {};
+      let shelves = {
+        currentlyReading: [],
+        wantToRead: [],
+        read: []
+      };
+      if (booksArr && booksArr.length) {
+        booksObject = booksArr.reduce((books, book) => {
+          shelves[book.shelf].push(book.id);
+          books[book.id] = book;
+          return books;
+        }, {});
+      }
+      this.setState({
+        books: booksObject,
+        shelves
+      });
     });
   }
 

@@ -14,25 +14,30 @@ const SHELVES_NAMES = {
 class Home extends Component {
   // TODO: CodeReview
   state = {
-    currentlyReadingBooks: [],
-    wantToReadBooks: [],
-    readBooks: []
+    currentlyReading: [],
+    wantToRead: [],
+    read: []
   };
-  componentDidMount() {
-    const { books } = this.props;
+
+  // need to use componentWillReceiveProps as setting state from props is an antipattern
+  componentWillReceiveProps(nextProps) {
+    const { books } = nextProps;
     let booksInShelves = {
-      currentlyReadingBooks: [],
-      wantToReadBooks: [],
-      readBooks: []
+      currentlyReading: [],
+      wantToRead: [],
+      read: []
     };
 
-    Object.values(books).map(book => booksInShelves[book.shelf].push(book));
+    Object.values(books).map(book => {
+      return booksInShelves[book.shelf].push(book);
+    });
     this.setState({
-      currentlyReadingBooks: booksInShelves["currentlyReading"],
-      wantToReadBooks: booksInShelves["wantToReadBooks"],
-      readBooks: booksInShelves["readBooks"]
+      currentlyReading: booksInShelves["currentlyReading"],
+      wantToRead: booksInShelves["wantToRead"],
+      read: booksInShelves["read"]
     });
   }
+
   render() {
     const { shelves } = this.props;
     return (
@@ -42,6 +47,7 @@ class Home extends Component {
           <div>
             {Object.keys(shelves).map(shelf => (
               <BookShelf
+                key={shelf}
                 shelfName={SHELVES_NAMES[shelf]}
                 books={this.state[shelf]}
               />
