@@ -2,11 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import * as BooksAPI from "../../api/BooksAPI";
-import "./App.css";
 import Home from "../Home";
 import Search from "../Search";
 import NotFound from "../NotFound";
-
+/** @jsx jsx */
+import { jsx } from "@emotion/core";
 class BooksApp extends React.Component {
   state = {
     // Will store a key-value pair, key the bookId and the value the book object
@@ -97,7 +97,7 @@ class BooksApp extends React.Component {
     const { books, shelves } = this.state;
     return (
       <Router>
-        <div className="app">
+        <div ccs={{ height: "100%", background: "white" }}>
           <Switch>
             <Route
               exact
