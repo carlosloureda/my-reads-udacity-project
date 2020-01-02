@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
+import "./Book.css";
 
 // TODO: fix these 2 contants when we add Emotion/styled-components
 const existingImage = bookCoverUrl => ({

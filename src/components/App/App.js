@@ -48,7 +48,8 @@ class BooksApp extends React.Component {
           shelf: newShelf
         }
       };
-      // TODO: Would be great to find a way of updating [newShelf] conditionally in the nested update :D
+      // TODO: Would be great to find a way of updating [newShelf] conditionally
+      // in the nested update :D
       shelvesCopy = {
         ...shelvesCopy,
         [newShelf]: shelvesCopy[newShelf].concat(book.id)

@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import * as BooksAPI from "./../../api/BooksAPI";
-import Book from "./../Book";
+import BooksGrid from "../BooksGrid";
+import "./Search.css";
 
 class Search extends Component {
   state = {
@@ -65,14 +66,10 @@ class Search extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid">
-            {booksSearched &&
-              booksSearched.map(book => (
-                <li key={book.id}>
-                  <Book book={book} onBookShelfChange={onBookShelfChange} />
-                </li>
-              ))}
-          </ol>
+          <BooksGrid
+            books={booksSearched}
+            onBookShelfChange={onBookShelfChange}
+          />
         </div>
       </div>
     );

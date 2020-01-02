@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import BookShelf from "./BookShelf";
 import Header from "../Header";
+import "./Home.css";
 
 // TODO: Think of a better way of having this coming from the shelves state?
 const SHELVES_NAMES = {
