@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 
 import BookShelf from "./BookShelf";
 import Header from "../Header";
-import "./Home.css";
+import styled from "@emotion/styled";
+import AddIconImg from "./../../icons/add.svg";
 
 // TODO: Think of a better way of having this coming from the shelves state?
 const SHELVES_NAMES = {
@@ -71,9 +72,9 @@ class Home extends Component {
   render() {
     const { shelves, onBookShelfChange } = this.props;
     return (
-      <div className="list-books">
+      <S.ListBooksContent>
         <Header />
-        <div className="list-books-content">
+        <div>
           <div>
             {Object.keys(shelves).map(shelf => (
               <BookShelf
@@ -85,13 +86,42 @@ class Home extends Component {
             ))}
           </div>
         </div>
-        <div className="open-search">
+        <S.OpenSearch>
           <Link to="/search">Add a book</Link>
-        </div>
-      </div>
+        </S.OpenSearch>
+      </S.ListBooksContent>
     );
   }
 }
+
+const S = {};
+S.ListBooksContent = styled.div`
+  padding: 0 0 80px;
+  flex: 1;
+`;
+S.OpenSearch = styled.div`
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  & > a {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #2e7d32;
+    background-image: url("${AddIconImg}");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 28px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    font-size: 0;
+    outline: 0;
+
+    &:hover{
+      background-color: rgb(0, 102, 0);
+    }
+  }
+`;
 
 Home.propTypes = {
   books: PropTypes.object.isRequired,
