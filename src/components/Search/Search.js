@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import * as BooksAPI from "./../../api/BooksAPI";
-import Book from "./../Book";
+import BooksGrid from "../BooksGrid";
+import styled from "@emotion/styled";
+import arrowBackImg from "./../../icons/arrow-back.svg";
+/** @jsx jsx */
+import { jsx } from "@emotion/core";
 
 class Search extends Component {
   state = {
@@ -50,12 +54,10 @@ class Search extends Component {
     const { booksSearched } = this.state;
     const { onBookShelfChange } = this.props;
     return (
-      <div className="search-books">
-        <div className="search-books-bar">
-          <Link to="/" className="close-search">
-            Close
-          </Link>
-          <div className="search-books-input-wrapper">
+      <div>
+        <S.SearchBooksBar>
+          <Link to="/">Close</Link>
+          <div css={{ flex: "1", background: "#e9e" }}>
             <input
               type="text"
               placeholder="Search by title or author"
@@ -63,16 +65,12 @@ class Search extends Component {
               onChange={this.onQueryEntered}
             />
           </div>
-        </div>
-        <div className="search-books-results">
-          <ol className="books-grid">
-            {booksSearched &&
-              booksSearched.map(book => (
-                <li key={book.id}>
-                  <Book book={book} onBookShelfChange={onBookShelfChange} />
-                </li>
-              ))}
-          </ol>
+        </S.SearchBooksBar>
+        <div css={{ padding: "80px 10px 20px" }}>
+          <BooksGrid
+            books={booksSearched}
+            onBookShelfChange={onBookShelfChange}
+          />
         </div>
       </div>
     );
@@ -83,5 +81,37 @@ Search.propTypes = {
   books: PropTypes.object.isRequired,
   onBookShelfChange: PropTypes.func.isRequired
 };
+
+const S = {};
+S.SearchBooksBar = styled.div`
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  display: flex;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 0 6px rgba(0, 0, 0, 0.23);
+  & > a {
+    display: block;
+    top: 20px;
+    left: 15px;
+    width: 50px;
+    height: 53px;
+    background-image: url(${arrowBackImg});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 28px;
+    font-size: 0;
+    border: none;
+    outline: none;
+  }
+  & input {
+    width: 100%;
+    padding: 15px 10px;
+    font-size: 1.25em;
+    border: none;
+    outline: none;
+  }
+`;
 
 export default Search;
